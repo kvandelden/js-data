@@ -479,8 +479,18 @@ function Mapper (opts) {
         return subClass
       })()
     })
+  } else if (this.recordClass !== false) {
+    const customSuperClass = this.recordClass
+    this.recordClass = function newRecordClass (props, opts) {
+      var base = Reflect.construct(customSuperClass, arguments, newRecordClass); // eslint-disable-line
+      if (!base._get) {
+        Record.call(base, props, opts)
   }
-
+      return base
+    }
+    Reflect.setPrototypeOf(this.recordClass.prototype, customSuperClass.prototype)
+    Reflect.setPrototypeOf(this.recordClass, customSuperClass)
+  }
   if (this.recordClass) {
     this.recordClass.mapper = this
 
@@ -1377,14 +1387,21 @@ export default Component.extend({
       throw utils.err(`${DOMAIN}#createRecord`, 'props')(400, 'array or object', props)
     }
 
-    if (this.relationList) {
-      this.relationList.forEach(function (def) {
-        def.ensureLinkedDataHasProperType(props, opts)
-      })
-    }
-    const RecordCtor = this.recordClass
 
-    return (!RecordCtor || props instanceof RecordCtor) ? props : new RecordCtor(props, opts)
+    const RecordCtor = this.recordClass
+    let bRecordCreated = (!RecordCtor || props instanceof RecordCtor)
+
+    // This can accidently recurse.. if the data structure has it'self in it.
+    // ... so only call when class not created.
+    if (bRecordCreated) {
+      if (this.relationList) {
+        this.relationList.forEach(function (def) {
+          def.ensureLinkedDataHasProperType(props, opts)
+        })
+      }
+    }
+
+    return bRecordCreated ? props : new RecordCtor(props, opts)
   },
 
   /**

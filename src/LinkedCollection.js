@@ -64,7 +64,25 @@ export default Collection.extend({
     const event = args[0]
     // This is a very brute force method
     // Lots of room for optimization
-    if (utils.isString(event) && event.indexOf('change') === 0) {
+    let fireIndexUpdate = false
+    const mapper = this.mapper
+    const optimizeReindexing = mapper.optimizeReindexing
+    if (utils.isString(event) && event.indexOf('change:') === 0) {
+      if (optimizeReindexing) {
+        //
+        let fieldName = event.substr(7)
+        if (mapper.dctMuttableKeys && mapper.dctMuttableKeys[fieldName]) {
+          fireIndexUpdate = true
+        }
+      } else {
+        fireIndexUpdate = true
+      }
+    }
+    /* this.mapper.arrMuttableKeys.forEach(function (keyFieldName) {
+      record.on('change:' + keyFieldName, self._onRecordEvent, self)
+    })
+    */
+    if (fireIndexUpdate) {
       this.updateIndexes(args[1])
     }
   },

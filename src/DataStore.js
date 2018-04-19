@@ -90,11 +90,16 @@ const props = {
     const idAttribute = mapper.idAttribute
     const collection = this.getCollection(name)
 
+    // Optimize index re-organization
+    mapper.optimizeReindexing = true
+    mapper.dctMuttableKeys = {}
+
     mapper.relationList.forEach(function (def) {
       const relation = def.relation
       const localField = def.localField
       const path = `links.${localField}`
       const foreignKey = def.foreignKey
+      const foreignKeyImmutable = def.foreignKeyImmutable
       const type = def.type
       const updateOpts = { index: foreignKey }
       let descriptor
@@ -103,9 +108,14 @@ const props = {
 
       if (type === belongsToType) {
         if (!collection.indexes[foreignKey]) {
-          collection.createIndex(foreignKey)
+          // Skip index creation.. kills high volume performance
+          //   collection.createIndex(foreignKey)
+        }
+        if (!foreignKeyImmutable) {
+          mapper.dctMuttableKeys[foreignKey] = foreignKey
         }
 
+        // Descriptor for Relationship Object Properties.
         descriptor = {
           get: getter,
           // e.g. profile.user = someUser

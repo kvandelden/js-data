@@ -809,6 +809,12 @@ export default Component.extend({
    */
   updateIndex (record, opts) {
     opts || (opts = {})
+    // if the named index doesn't exist, skip
+    if (opts.index) {
+      if (!(opts.index in this.indexes)) {
+        return
+      }
+    }
     this.getIndex(opts.index).updateRecord(record)
   },
 
