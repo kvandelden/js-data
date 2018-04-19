@@ -1110,15 +1110,20 @@ export default Component.extend({
         }
 
         // Add changing properties to this array once at most
+        // KvD:  Always fire changed, even if value is reverted to the original. UI needs this.
+
         const index = changed.indexOf(prop)
-        if (current !== value && index === -1) {
+        if (index === -1) {
           changed.push(prop)
         }
+        /*
+        //KvD: Always fire changed, even if value is reverted to the original. UI needs this.
         if (previous === value) {
           if (index >= 0) {
             changed.splice(index, 1)
           }
         }
+        */
         // No changes in current event loop
         if (!changed.length) {
           changing = false
