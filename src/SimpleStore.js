@@ -972,11 +972,11 @@ const props = {
 
     // Create a secondary index on the "added" timestamps of records in the
     // collection
-    collection.createIndex('addedTimestamps', ['$'], {
-      fieldGetter (obj) {
-        return collection._added[collection.recordId(obj)]
-      }
-    })
+    // collection.createIndex('addedTimestamps', ['$'], {
+    //   fieldGetter (obj) {
+    //     return collection._added[collection.recordId(obj)]
+    //   }
+    // })
 
     collection.on('all', function (...args) {
       self._onCollectionEvent(name, ...args)
