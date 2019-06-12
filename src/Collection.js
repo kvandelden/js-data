@@ -437,8 +437,8 @@ export default Component.extend({
       fieldList = [name]
     }
     opts || (opts = {})
-    opts.hashCode || (opts.hashCode = (obj) => this.recordId(obj))
-    const index = this.indexes[name] = new Index(fieldList, opts)
+    opts.hashCode || (opts.hashCode = obj => this.recordId(obj))
+    const index = (this.indexes[name] = new Index(fieldList, opts))
     this.index.visitAll(index.insertRecord, index)
   },
 
@@ -710,9 +710,9 @@ export default Component.extend({
         })
         if (utils.isFunction(record.off)) {
           record.off('all', this._onRecordEvent, this)
-          if (!opts.silent) {
-            this.emit('remove', record)
-          }
+        }
+        if (!opts.silent) {
+          this.emit('remove', record)
         }
       }
     }
