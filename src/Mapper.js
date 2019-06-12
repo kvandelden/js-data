@@ -481,6 +481,8 @@ function Mapper (opts) {
     })
   } else if (this.recordClass !== false) {
     const customSuperClass = this.recordClass
+    // consider ES6 .. dynamic naming. ie. use nameIt
+    // const nameIt = (name, cls) => ({[name] : class extends cls {}})[name];
     this.recordClass = function newRecordClass (props, opts) {
       var base = Reflect.construct(customSuperClass, arguments, newRecordClass); // eslint-disable-line
       if (!base._get) {
@@ -1451,7 +1453,12 @@ export default Component.extend({
       this.dbg(op, ...args)
       return utils.resolve(this.getAdapter(adapter)[op](this, ...args))
     }).then((result) => {
-      result = this._end(result, opts, !!config.skip)
+      // force noValidate on find/findAll
+      const noValidate = /find/.test(op) || opts.noValidate
+      const _opts = Object.assign({}, opts, { noValidate })
+
+      result = this._end(result, _opts, !!config.skip)
+
       args.push(result)
       // after lifecycle hook
       op = opts.op = after
