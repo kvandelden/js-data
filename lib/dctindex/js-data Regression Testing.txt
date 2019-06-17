@@ -1,0 +1,68 @@
+1) DataStore integration tests should add relations:
+  KVD: Resolved issue
+
+  2) Collection#add should allow unsaved records into the collection:
+    KVD: Tests expects results in particular order.. DctIndex doesn't return values in the same order as mindex.
+
+
+  3) Collection#getAll should support complex queries:  
+    KVD: Tests index with dual key fields.. DctIndex doesnt support multiple indexed keys
+
+  4) Collection#getIndex should get an index:
+    KVD: Test hard codes expected return datatype to JSData.Index
+   
+
+  5) Collection#remove should remove unsaved records:
+    KVD: Resolved issue
+
+  6) Collection#removeAll should remove unsaved records:
+    KVD: Tests expects results in particular order.. DctIndex doesn't return values in the same order as mindex.
+
+
+  7) Collection#removeAll should remove unsaved records with convenience method:
+    KVD: Tests expects results in particular order.. DctIndex doesn't return values in the same order as mindex.
+
+
+  8) Collection#updateIndex should update record in a single index:
+    KVD: DctIndex doesn't support changing the records primary key once set.
+	KVD: Test resets data[1].id = 3 when it's originally id: 1
+	KVD: DctIndex does support the changing of the index value when it's a foreign key.
+	KVD: 
+	
+
+  9) Collection#updateIndexes should update a record in all indexes:
+	KVD: Resolved issue
+
+  10) DataStore#defineMapper should create indexes for indexed properties:
+    KVD: Tests expects results in particular order.. DctIndex doesn't return values in the same order as mindex.
+
+  11) Mapper#create should nested create everything in opts.with:
+	KVD: Non dictionary changes	
+
+  12) Mapper#create should pass everything opts.pass:
+	KVD: Non dictionary changes	
+
+  13) Mapper#create should combine opts.with and opts.pass:
+	KVD: Non dictionary changes	
+
+  14) Mapper#createMany should nested create everything in opts.with:
+	KVD: Non dictionary changes	
+
+  15) Mapper#createMany should pass everything opts.pass:
+	KVD: Non dictionary changes	
+
+
+  16) Mapper#createMany should combine opts.with and opts.pass:
+	KVD: Non dictionary changes	
+
+  17) Mapper#createRecord should create records on nested data:
+	KVD: Non dictionary changes	
+
+  18) Query#between should work:
+    KVD: Tests index with dual key fields.. DctIndex doesnt support multiple indexed keys
+  	KVD:	ageRole doesn't exist
+	 
+  19) Record#hasChanges should return true if a tracked field is changed:
+	KVD: Non dictionary changes	
+
+
