@@ -5,7 +5,7 @@ import Record from './Record'
 import Index from '../lib/mindex/index'
 import DctIndex from "../lib/dctindex/dctindex"
 
-const bUseDctIndex = false
+const bUseDctIndex = true
 
 const IndexClass = (bUseDctIndex)? DctIndex : Index
 const { noValidatePath } = Record

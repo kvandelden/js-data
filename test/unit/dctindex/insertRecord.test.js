@@ -45,8 +45,8 @@ describe('DctIndex#insertRecord', function () {
     index2.insertRecord(record10)
 
     let records = index2.between([44], [98])
-    console.log("Between 44, 98")
-    console.log(JSON.stringify(records, null, '\t'))
+    //console.log("Between 44, 98")
+    //console.log(JSON.stringify(records, null, '\t'))
     // dctIndex doesn't guarantee order..
     assert.equal(records.length, 5)
     assert.equal(true, records.indexOf(record4) >= 0)
