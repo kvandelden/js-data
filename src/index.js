@@ -118,6 +118,17 @@ import DataStore from './DataStore'
 import Index from '../lib/mindex/index'
 
 /**
+ * JSData's {@link DctIndex} class}.
+ *
+ * @name module:js-data.DctIndex
+ * @see DctIndex
+ * @since 3.0.0
+ * @type {Constructor}
+ */
+import DctIndex from "../lib/dctindex/dctindex"
+
+
+/**
  * JSData's {@link LinkedCollection} class. Used by the {@link DataStore}
  * component. If you need to create a collection manually, you should probably
  * use the {@link Collection} class.
@@ -128,6 +139,7 @@ import Index from '../lib/mindex/index'
  * @since 3.0.0
  * @type {Constructor}
  */
+
 import LinkedCollection from './LinkedCollection'
 
 /**
@@ -266,6 +278,7 @@ export {
   Container,
   DataStore,
   Index,
+  DctIndex,
   LinkedCollection,
   Mapper,
   Query,

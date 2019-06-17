@@ -93,6 +93,7 @@ module.exports = function (config) {
       'src/Mapper.js',
       'lib/mindex/_utils.js',
       'lib/mindex/index.js',
+      'lib/dctindex/dctindex.js',
       'src/Collection.js',
       'src/Container.js',
       'src/SimpleStore.js',

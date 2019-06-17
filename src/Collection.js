@@ -3,7 +3,11 @@ import Component from './Component'
 import Query from './Query'
 import Record from './Record'
 import Index from '../lib/mindex/index'
+import DctIndex from "../lib/dctindex/dctindex"
 
+const bUseDctIndex = false
+
+const IndexClass = (bUseDctIndex)? DctIndex : Index
 const { noValidatePath } = Record
 
 const DOMAIN = 'Collection'
@@ -163,7 +167,8 @@ function Collection (records, opts) {
      * @type {Index}
      */
     index: {
-      value: new Index([idAttribute], {
+      value: new IndexClass([idAttribute], {
+        idAttribute: idAttribute,
         hashCode (obj) {
           return utils.get(obj, idAttribute)
         }
@@ -437,8 +442,9 @@ export default Component.extend({
       fieldList = [name]
     }
     opts || (opts = {})
+    opts.collection = this
     opts.hashCode || (opts.hashCode = obj => this.recordId(obj))
-    const index = (this.indexes[name] = new Index(fieldList, opts))
+    const index = (this.indexes[name] = new IndexClass(fieldList, opts))
     this.index.visitAll(index.insertRecord, index)
   },
 
