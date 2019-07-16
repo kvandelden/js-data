@@ -835,6 +835,11 @@ http://www.js-data.io/v3.0/docs/errors#${code}`
     if (!prop) {
       return
     }
+
+    if(prop.indexOf('.') == -1){ // optimize common case, avoid split.
+      return object[prop]
+    }
+
     const parts = prop.split('.')
     const last = parts.pop()
 
@@ -1572,6 +1577,11 @@ http://www.js-data.io/v3.0/docs/errors#${code}`
    * @since 3.0.0
    */
   unset (object, path) {
+
+    if(path.indexOf('.') == -1){ // optimize common case, avoid split.
+      object[path] = undefined
+    }
+
     const parts = path.split('.')
     const last = parts.pop()
 

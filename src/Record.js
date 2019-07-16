@@ -417,11 +417,29 @@ export default Component.extend({
       safeSetLink(record, inverseDef.localField, this)
     } else if (inverseDef.type === hasManyType) {
       // e.g. add comment to somePost.comments
-      const children = utils.get(record, inverseDef.localField)
+      let children = utils.get(record, inverseDef.localField)
+      if(utils.isUndefined(children)){
+        utils.set(record, inverseDef.localField, [])
+        children = utils.get(record, inverseDef.localField)
+      }
+
+      const dictFieldName = inverseDef.localField + 'KeyDict'
+      let dctKeys = record[dictFieldName]
+      if(utils.isUndefined(dctKeys)){
+        record[dictFieldName] = {}
+        dctKeys = record[dictFieldName]
+        // Init Keys ? or assume it's empty?
+      }
+
       if (id === undefined) {
         utils.noDupeAdd(children, this, (child) => child === this)
       } else {
-        utils.noDupeAdd(children, this, (child) => child === this || id === utils.get(child, idAttribute))
+        // Check if the id is in the dctionary
+        if(!(id in dctKeys)){
+          dctKeys[id] = id
+          children.push(this)
+        }
+        //utils.noDupeAdd(children, this, (child) => child === this || id === utils.get(child, idAttribute))
       }
     }
   },

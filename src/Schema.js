@@ -990,7 +990,8 @@ export default Component.extend({
     opts.getter || (opts.getter = '_get')
     opts.setter || (opts.setter = '_set')
     opts.unsetter || (opts.unsetter = '_unset')
-    opts.track || (opts.track = this.track)
+    if(!utils.isBoolean(opts.track)){ opts.track = this.track }
+
     const properties = this.properties || {}
     utils.forOwn(properties, (schema, prop) => {
       Object.defineProperty(
@@ -1171,7 +1172,11 @@ export default Component.extend({
           }, 0))
         }
       }
-      _set(keyPath, value)
+
+      if (!this.props) {this.props= {}}
+      this.props[prop] = value;
+      //_set(keyPath, value)
+
       return value
     }
 

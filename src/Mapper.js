@@ -487,7 +487,7 @@ function Mapper (opts) {
       var base = Reflect.construct(customSuperClass, arguments, newRecordClass); // eslint-disable-line
       if (!base._get) {
         Record.call(base, props, opts)
-  }
+      }
       return base
     }
     Reflect.setPrototypeOf(this.recordClass.prototype, customSuperClass.prototype)
@@ -510,7 +510,7 @@ function Mapper (opts) {
     // We can only apply the schema to the prototype of this.recordClass if the
     // class extends Record
     if (Record.prototype.isPrototypeOf(Object.create(this.recordClass.prototype)) && this.schema && this.schema.apply && this.applySchema) {
-      this.schema.apply(this.recordClass.prototype)
+      this.schema.apply(this.recordClass.prototype, opts)
     }
   }
 }
