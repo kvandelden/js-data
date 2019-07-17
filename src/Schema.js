@@ -1084,6 +1084,8 @@ export default Component.extend({
       const _get = this[getter]
       const _set = this[setter]
       const _unset = this[unsetter]
+      const _setProps = this._setProps
+
       // Optionally check that the new value passes validation
       if (!_get(noValidatePath)) {
         const errors = schema.validate(value, { path: [prop] })
@@ -1173,9 +1175,9 @@ export default Component.extend({
         }
       }
 
-      if (!this.props) {this.props= {}}
-      this.props[prop] = value;
       //_set(keyPath, value)
+      // Create fast version for common case.
+      _setProps(prop, value)
 
       return value
     }

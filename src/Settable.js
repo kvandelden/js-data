@@ -19,7 +19,29 @@ import utils from './utils'
  */
 export default function Settable () {
   const _props = {}
+
   Object.defineProperties(this, {
+
+    // Unhide Props
+    __props: { value () { return _props } },
+
+    // fast setProps function
+    _setProps: {
+      value (key, value) {
+
+        if (!_props.props) { _props.props = {}}
+
+        if (utils.isObject(key)) {
+          return utils.set(_props, key, value)
+        } else {
+          _props.props[key] = value
+        }
+
+        return value
+
+      }
+    },
+
     /**
      * Get a private property of this instance.
      *
