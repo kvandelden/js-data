@@ -519,6 +519,7 @@ export default Component.extend({
    * @returns {(Object|Record)} The record with the given id.
    */
   get (id) {
+    if(!id){ return undefined }
     const instances = id === undefined ? [] : this.query().get(id).run()
     return instances.length ? instances[0] : undefined
   },
