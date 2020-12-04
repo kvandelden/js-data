@@ -100,6 +100,7 @@ const props = {
       const path = `links.${localField}`
       const foreignKey = def.foreignKey
       const foreignKeyImmutable = def.foreignKeyImmutable
+      const createIndex = def.createIndex
       const type = def.type
       const updateOpts = { index: foreignKey }
       let descriptor
@@ -107,9 +108,9 @@ const props = {
       const getter = function () { return this._get(path) }
 
       if (type === belongsToType) {
-        if (!collection.indexes[foreignKey]) {
-          // Skip index creation.. kills high volume performance
-          //   collection.createIndex(foreignKey)
+        if ((!collection.indexes[foreignKey]) && createIndex) {
+          // Conditionally create indexes, to improve load performance.
+          collection.createIndex(foreignKey)
         }
         if (!foreignKeyImmutable) {
           mapper.dctMuttableKeys[foreignKey] = foreignKey

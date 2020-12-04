@@ -441,6 +441,37 @@ export default Component.extend({
      * @tutorial ["http://www.js-data.io/v3.0/docs/query-syntax","JSData's Query Syntax"]
      */
     query || (query = {})
+
+    // Check the simple, fast case first.
+    let arrKeys = Object.keys(query)
+
+    if(arrKeys.length == 1 && !this.data){
+      let fkFieldName  = arrKeys[0];
+      let idx = this.collection.indexes[fkFieldName]
+      if(idx){
+        let queryValue = query[fkFieldName]
+        let filterValues = undefined
+        if(Array.isArray(queryValue)){
+          filterValues = queryValue
+        } else if(typeof queryValue == "number" || typeof queryValue == "string"){
+          filterValues = [queryValue]
+        }
+
+        if(filterValues){
+          let dataset = []
+          filterValues.forEach((aKey) => {
+            let rows = idx.get(filterValues)
+            dataset.push.apply(dataset, rows)
+          })
+          this.data = dataset;
+          return this;
+        }
+
+      }
+    }
+
+
+
     this.getData()
     if (utils.isObject(query)) {
       let where = {}
