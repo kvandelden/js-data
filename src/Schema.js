@@ -789,6 +789,8 @@ const validate = function (value, schema, opts) {
 const changingPath = 'changing'
 // string[] - Properties that have changed in the current execution frame
 const changedPath = 'changed'
+// boolean - Simple Fast indicator, Changed Indicator
+const changedIndPath = 'changedInd'
 // Object[] - History of change records
 const changeHistoryPath = 'history'
 // boolean - Whether a Record is currently being instantiated
@@ -1099,7 +1101,9 @@ export default Component.extend({
       }
       // TODO: Make it so tracking can be turned on for all properties instead of
       // only per-property
+      let bSetChangedInd = false
       if (track && !_get(creatingPath)) {
+        bSetChangedInd = true
         // previous is versioned on database commit
         // props are versioned on set()
         const previous = _get(previousPath)
@@ -1178,6 +1182,8 @@ export default Component.extend({
       //_set(keyPath, value)
       // Create fast version for common case.
       _setProps(prop, value)
+      if(bSetChangedInd)
+        _set(changedIndPath, true)
 
       return value
     }
