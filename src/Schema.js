@@ -1101,9 +1101,8 @@ export default Component.extend({
       }
       // TODO: Make it so tracking can be turned on for all properties instead of
       // only per-property
-      let bSetChangedInd = false
+      let bSetChangedInd = !_get(creatingPath)
       if (track && !_get(creatingPath)) {
-        bSetChangedInd = true
         // previous is versioned on database commit
         // props are versioned on set()
         const previous = _get(previousPath)
