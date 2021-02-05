@@ -104,7 +104,8 @@ utils.addHiddenPropsToTarget(Relation.prototype, {
   },
 
   setLocalField (record, relatedData) {
-    return utils.set(record, this.localField, relatedData)
+      if((utils.isArray(relatedData)) || ((record[this.localField] !== relatedData)))
+        return utils.set(record, this.localField, relatedData)
   },
 
   getInverse (mapper) {
