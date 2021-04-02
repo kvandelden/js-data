@@ -76,6 +76,7 @@ export class Component {
 }
 export class Record extends Component {
   static mapper: Mapper
+  _mapper(): Mapper
   constructor(props?: any, opts?: any)
   _set(prop: any, value?: any): void
   _get(prop: string): any
