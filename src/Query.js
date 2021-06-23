@@ -1120,7 +1120,7 @@ export default Component.extend({
    * @since 3.0.0
    * @type {Object}
    */
-  ops: {
+  ops: { // kvd: Added loopback operators for support in Queries
     '=': function (value, predicate) {
       return value == predicate // eslint-disable-line
     },
@@ -1136,16 +1136,31 @@ export default Component.extend({
     '!==': function (value, predicate) {
       return value !== predicate
     },
+    'neq': function (value, predicate) {
+      return value != predicate // eslint-disable-line
+    },
     '>': function (value, predicate) {
+      return value > predicate
+    },
+    'gt': function (value, predicate) {
       return value > predicate
     },
     '>=': function (value, predicate) {
       return value >= predicate
     },
+    'gte': function (value, predicate) {
+      return value >= predicate
+    },
     '<': function (value, predicate) {
       return value < predicate
     },
+    'lt': function (value, predicate) {
+      return value < predicate
+    },
     '<=': function (value, predicate) {
+      return value <= predicate
+    },
+    'lte': function (value, predicate) {
       return value <= predicate
     },
     'isectEmpty': function (value, predicate) {
@@ -1157,13 +1172,25 @@ export default Component.extend({
     'in': function (value, predicate) {
       return predicate.indexOf(value) !== -1
     },
+    'inq': function (value, predicate) {
+      return predicate.indexOf(value) !== -1
+    },
     'notIn': function (value, predicate) {
+      return predicate.indexOf(value) === -1
+    },
+    'nin': function (value, predicate) {
       return predicate.indexOf(value) === -1
     },
     'contains': function (value, predicate) {
       return (value || []).indexOf(predicate) !== -1
     },
+    'like': function (value, predicate) {
+      return (value || []).indexOf(predicate) !== -1
+    },
     'notContains': function (value, predicate) {
+      return (value || []).indexOf(predicate) === -1
+    },
+    'nlike': function (value, predicate) {
       return (value || []).indexOf(predicate) === -1
     }
   }
